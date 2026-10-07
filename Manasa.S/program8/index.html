@@ -1,0 +1,49 @@
+<html>
+    <body>
+        <h1>Cartoon Gallery</h1>
+
+        <button onclick="loadCartoons()">Load Cartoons</button>
+
+        <p id="message">Click the buttons to load Cartoons....</p>
+
+        <div id="cartoons"></div>
+
+        <script>
+
+            function loadCartoons(){
+
+                let message=document.querySelector("#message");
+                let cartoons=document.querySelector("#cartoons");
+
+                message.textContent="Loading cartoons..";
+                cartoons.innerHTML="";
+
+                fetch("https://raw.githubusercontent.com/samyak2403/daily-movies-api/main/movies/cartoons/cartoons.json ")
+                
+                .then (response=>{
+                    if(!response.ok)
+                        throw new Error("Failed to load cartoon data");
+                    return response.json();
+                })
+                .then(data=>{
+                    data.movies.forEach(cartoon=>{
+
+                        cartoons.innerHTML+=
+                            `<div class="card">
+                                <img src="${cartoon.thumbnail}" alt="${cartoon.title}">
+                                <h3>${cartoon.title}</h3>
+                            </div>
+                        `;
+                    });
+
+                    message.textContent=
+                        `✔ ${data.movies.length} cartoons loaded`;
+                })
+
+                .catch(error=>{
+                    message.textContent="❌"+error.message;
+                });
+            }
+        </script>
+    </body>
+</html>

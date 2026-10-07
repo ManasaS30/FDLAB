@@ -1,0 +1,35 @@
+<html>
+    <body>
+        <h1>student api</h1>
+
+        <button onclick="getdata()">Load Students</button>
+
+        <p id="results">Click the button to get student data....</p>
+
+        <script>
+
+            function getdata(){
+
+
+
+                fetch("https://github.com/ManasaS30/project30/blob/main/data.json")
+                .then (response=>{
+                    if(!response.ok)
+                        throw new Error("Failed to load student data");
+                    return response.json();
+                })
+                .then(data=>{
+                    document.getElementById("results").innereHTML=
+                    "Name: "+ data.name +"<br>"+
+                    "Email: "+ data.email 
+                })
+
+
+
+                .catch(error =>{
+                    document.getElementById("result").innerHTML="Error:"+error.message;
+                });
+            }
+        </script>
+    </body>
+</html>
